@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Sign up
+{% endblock %}
+
+{% block content %}
+    <br>
+    <br>
+    <br>
+<div class="container">
+<h1>Зарегистрируйся прямо сейчас или по попе</h1>
+    <br>
+    <br>
+    <br>
+<div class="container">
+<main class="form-signin w-100 m-auto">
+  <form method="post">
+
+    <div class="form-floating">
+        <label for="floatingInput">Введите почту</label>
+      <input type="email" class="form-control" id="floatingInput" name="email" id="email" placeholder="name@example.com">
+    </div>
+      <br>
+      <div class="form-floating">
+          <label for="floatingInput">Введите имя пользователя</label>
+      <input type="text" class="form-control" name="userName" id="userName" placeholder="Ваше имя пользователя">
+    </div>
+      <br>
+    <div class="form-floating">
+        <label for="floatingPassword">Пароль</label>
+      <input type="password" class="form-control" name="password1" id="password1" placeholder="">
+    </div>
+       <br>
+    <div class="form-floating">
+        <label for="floatingPassword">Повторите пароль</label>
+      <input type="password" class="form-control" name="password2" id="password2" placeholder="">
+    </div>
+
+      <br>
+
+    <button class="w-100 btn btn-lg btn-primary" type="submit">Зарегистрироваться</button> <br> <br>
+      <p class="h3 mb-3 fw-normal">Уже есть аккаунт?</p>
+      <a href="/login">Войти сейчас</a>
+    <p class="mt-5 mb-3 text-muted">© 2025–2025</p>
+  </form>
+</main>
+        </div>
+    </div>
+{% endblock %}

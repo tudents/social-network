@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Login
+{% endblock %}
+
+{% block content %}
+    <br>
+    <br>
+    <br>
+    <div class="container">
+<h1>Добро пожаловать в эту замечательную социальную сеть!!</h1>
+        <br>
+        <br>
+        <br>
+<div class="container">
+<main class="form-signin w-100 m-auto">
+  <form method="POST">
+
+ <div class="form-floating">
+        <label for="floatingInput">Введите почту</label>
+      <input type="email" class="form-control" id="floatingInput" name="email" id="email" placeholder="name@example.com">
+    </div>
+      <br>
+    <div class="form-floating">
+        <label for="floatingPassword">Пароль</label>
+      <input type="password" class="form-control" id="floatingPassword" name="password" placeholder="">
+    </div>
+
+    <div class="checkbox mb-3">
+      <label>
+        <input type="checkbox" value="remember-me"> Запомнить аккаунт
+      </label>
+    </div>
+    <button class="w-100 btn btn-lg btn-primary" type="submit">Войти в аккаунт</button>
+       <br>
+       <br>
+      <p class="h3 mb-3 fw-normal">Ещё нет аккаунта?</p>
+      <a href="/sign-up">Зарегистрируйтесь сейчас</a>
+      <p class="mt-5 mb-3 text-muted">© 2025–2025</p>
+  </form>
+</main>
+        </div>
+    </div>
+{% endblock %}
