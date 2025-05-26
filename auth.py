@@ -64,3 +64,50 @@ def sign_up():
             return redirect(url_for('views.user'))
 
     return render_template('sign_up.html')
+
+
+# пользователь обновляет личную информацию
+@auth.route('/change-info', methods=['GET', 'POST'])
+@login_required
+def change_info():
+    if request.method == 'POST':
+        first_name = request.form.get('first_name')
+        last_name = request.form.get('last_name')
+        birth_date = request.form.get('birth_date')
+        profile_picture = request.files.get('profile_picture')
+
+        user = User.query.get(current_user.id)
+
+        # обновление полей только если они заполнены
+        if first_name:
+            user.first_name = first_name
+        if last_name:
+            user.last_name = last_name
+        if birth_date:
+            try:
+                # преобразование строки в объект даты
+                user.birth_date = datetime.strptime(birth_date, '%Y-%m-%d').date()
+            except ValueError:
+                flash('Неверный формат даты. Используй ГГГГ-ММ-ДД', category='error')
+                return redirect(url_for('auth.change_info'))
+
+        # обработка фото
+        profile_picture = request.files.get('profile_picture')
+
+        user = User.query.get(current_user.id)
+
+        if profile_picture and profile_picture.filename != '':
+            filename = secure_filename(profile_picture.filename)
+            upload_folder = current_app.config['UPLOAD_FOLDER']
+            if not os.path.exists(upload_folder):
+                os.makedirs(upload_folder)
+            file_path = os.path.join(upload_folder, filename)
+            profile_picture.save(file_path)
+
+            user.profile_picture = f'uploads/{filename}'
+
+        db.session.commit()
+        flash('Информация обновлена!', category='success')
+        return redirect(url_for('views.user'))
+
+    return render_template('change-info.html')
