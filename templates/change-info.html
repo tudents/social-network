@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Sign up
+{% endblock %}
+
+{% block content %}
+    <br>
+    <br>
+    <br>
+<div class="container">
+<h1>Измени информацию о своей странице здесь</h1>
+    <br>
+    <br>
+    <br>
+<div class="container">
+<main class="form-signin w-100 m-auto">
+  <form method="post" enctype="multipart/form-data">
+
+
+
+      <div class="form-floating">
+        <label for="floatingInput">Введите новое имя</label>
+      <input type="text" class="form-control" id="floatingInput" name="first_name" id="first_name" placeholder="Имя">
+    </div>
+      <br>
+      <div class="form-floating">
+        <label for="floatingInput">Введите новую фамилию</label>
+      <input type="text" class="form-control" id="floatingInput" name="last_name" id="last_name" placeholder="Фамилия">
+    </div>
+      <br>
+    <div class="form-floating">
+        <label for="floatingInput">Введите дату рождения</label>
+      <input type="date" class="form-control" id="floatingInput" name="birth_date" id="birth_date">
+    </div>
+      <br>
+      <div class="form-floating">
+          <label for="floatingInput">Введите новое имя пользователя</label>
+      <input type="text" class="form-control" name="userName" id="userName">
+    </div>
+      <br>
+    <div class="form-floating">
+        <label for="floatingInput">Новая аватарка</label>
+      <input type="file" class="form-control" id="floatingInput" name="profile_picture" id="profile_picture">
+    </div>
+      <br>
+
+      <br>
+
+    <button class="w-100 btn btn-lg btn-primary" type="submit">Изменить информацию</button> <br> <br>
+
+    <p class="mt-5 mb-3 text-muted">© 2025–2025</p>
+  </form>
+</main>
+        </div>
+    </div>
+{% endblock %}

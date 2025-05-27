@@ -19,14 +19,19 @@ def login():
 
         user = User.query.filter_by(email=email).first()
         if user and user.password:
-            if check_password_hash(user.password, password):
-                flash('You have been logged in', category='success')
+            if user and check_password_hash(user.password, password):
+                if user.is_blocked:
+                    flash('Ваш аккаунт заблокирован.')
+                    logout_user()
+                    return redirect(url_for('auth.login'))
+
                 login_user(user, remember=True)
+                flash('Вы вошли в аккаунт', category='success')
                 return redirect(url_for('views.user'))
             else:
-                flash('Invalid password', category='error')
+                flash('Неправильный пароль', category='error')
         else:
-            flash('Email does not exist.', category='error')
+            flash('Такая почта не зарегистрирована или написана неправильно.', category='error')
 
     return render_template('login.html', boolean=True)
 
@@ -64,7 +69,6 @@ def sign_up():
             return redirect(url_for('views.user'))
 
     return render_template('sign_up.html')
-
 
 # пользователь обновляет личную информацию
 @auth.route('/change-info', methods=['GET', 'POST'])
@@ -111,3 +115,46 @@ def change_info():
         return redirect(url_for('views.user'))
 
     return render_template('change-info.html')
+
+
+# админка
+@auth.route('/admin')
+@login_required
+def admin():
+    if not current_user.is_admin:
+        flash('Вы не админ', category='error')
+        return redirect(url_for('auth.logout'))
+    users = User.query.all()
+    return render_template('admin.html', users=users)
+
+
+# изменение инфы о пользователе админом
+@auth.route('/admin/edit/<int:user_id>', methods=['GET', 'POST'])
+@login_required
+def edit_user_by_admin(user_id):
+    if not current_user.is_admin:
+        flash('Вы не админ', category='error')
+        return redirect(url_for('auth.logout'))
+    user = User.query.get_or_404(user_id)
+    if request.method == 'POST':
+        user.username = request.form['username']
+        user.email = request.form['email']
+        user.first_name = request.form['first_name']
+        user.last_name = request.form['last_name']
+        db.session.commit()
+        flash('Данные обновлены.')
+        return redirect(url_for('auth.admin'))
+    return render_template('edit_user_by_admin.html', user=user)
+
+
+# блокировка пользователей
+@auth.route('/admin/toggle_block/<int:user_id>')
+@login_required
+def toggle_block(user_id):
+    if not current_user.is_admin:
+        flash('Вы не админ', category='error')
+    user = User.query.get_or_404(user_id)
+    user.is_blocked = not user.is_blocked
+    db.session.commit()
+    flash('Статус блокировки изменен.')
+    return redirect(url_for('auth.admin'))
